@@ -7,7 +7,7 @@ import sbt._
 import scala.language.postfixOps
 
 val apiVersion = "0.3.0.0-RC1"
-val _scalaVersion = "2.12.1"
+val _scalaVersion = "2.11.8"
 
 organization := "io.scalajs"
 
@@ -89,7 +89,7 @@ lazy val pixijs = (project in file("browser/pixijs")).
 /////////////////////////////////////////////////////////////////////////////////
 
 lazy val angular_core = (project in file("browser/angularjs/core")).
-  dependsOn(jquery).
+  dependsOn(core, dom, jquery).
   enablePlugins(ScalaJSPlugin).
   settings(commonSettings: _*).
   settings(
