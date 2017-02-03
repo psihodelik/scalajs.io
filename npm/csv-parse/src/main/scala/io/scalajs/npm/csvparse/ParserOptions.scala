@@ -16,7 +16,7 @@ import scala.scalajs.js.|
   *                               the first line and returning the column names, or true if autodiscovered in the first
   *                               CSV line. Defaults to null. Affects the result data set in the sense that records will
   *                               be objects instead of arrays.
-  * @param  comment               Treat all the characters after this one as a comment. Defaults to '' (disabled).
+  * @param  comment               Treat all the characters after this one as a comment. Defaults to "" (disabled).
   * @param  objname               Name of header-record title to name objects by.
   * @param relax                  Preserve quotes inside unquoted field.
   * @param relax_column_count     Discard inconsistent columns count. Default to false.
@@ -51,4 +51,5 @@ class ParserOptions(var delimiter: js.UndefOr[String] = js.undefined,
                     var ltrim: js.UndefOr[Boolean] = js.undefined,
                     var rtrim: js.UndefOr[Boolean] = js.undefined,
                     var auto_parse: js.UndefOr[Boolean] = js.undefined,
-                    var auto_parse_date: js.UndefOr[Boolean] = js.undefined) extends js.Object
+                    var auto_parse_date: js.UndefOr[Boolean] = js.undefined)
+    extends js.Object

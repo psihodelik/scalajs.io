@@ -33,8 +33,9 @@ class JsDomTest extends FunSpec {
           assert(err == null)
 
           import window.$
-          assert($("a").nonEmpty)
-        })
+          assert($("a") != null)
+        }
+      )
     }
 
     it("should initialize via raw HTML") {
@@ -47,36 +48,40 @@ class JsDomTest extends FunSpec {
 
           import window.$
           assert($("a.the-link").text() == "jsdom!")
-        })
+        }
+      )
     }
 
     it("should initialize via a configuration object") {
-      JsDom.env(new EnvironmentOptions(
-        url = "http://news.ycombinator.com/",
-        scripts = js.Array("http://code.jquery.com/jquery.js"),
-        done = (err, window) => {
-          if (err != null) console.error(err)
-          assert(err == null)
+      JsDom.env(
+        new EnvironmentOptions(
+          url = "http://news.ycombinator.com/",
+          scripts = js.Array("http://code.jquery.com/jquery.js"),
+          done = (err, window) => {
+            if (err != null) console.error(err)
+            assert(err == null)
 
-          import window.$
-          assert($("td.title:not(:last) a").nonEmpty)
-        }
-      ))
+            import window.$
+            assert($("td.title:not(:last) a") != null)
+          }
+        ))
     }
 
     it("should initialize via a raw JavaScript source") {
       val jquery = Fs.readFileSync("./node_modules/jquery/dist/jquery.min.js", "utf-8")
 
-      JsDom.env(new EnvironmentOptions(
-        url = "http://news.ycombinator.com/",
-        src = js.Array(jquery),
-        done = (err, window) => {
-          if (err != null) console.error(err)
-          assert(err == null)
+      JsDom.env(
+        new EnvironmentOptions(
+          url = "http://news.ycombinator.com/",
+          src = js.Array(jquery),
+          done = (err, window) => {
+            if (err != null) console.error(err)
+            assert(err == null)
 
-          import window.$
-          assert($("td.title:not(:last) a").nonEmpty)
-        }))
+            import window.$
+            assert($("td.title:not(:last) a") != null)
+          }
+        ))
     }
 
   }

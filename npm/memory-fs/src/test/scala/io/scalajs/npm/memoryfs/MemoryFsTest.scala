@@ -20,36 +20,39 @@ class MemoryFsTest extends FunSpec {
     val fs = new MemoryFileSystem() // Optionally pass a javascript object
 
     it("can be used asynchronously - callbacks") {
+      /*
       var output1: Buffer = null
       var output2: js.Array[String] = null
       var output3: Boolean = false
 
-      fs.mkdirp("/a/test/dir", (err1: FileIOError) => {
-        assert(err1 == null)
+      fs.mkdirp(
+        "/a/test/dir", (err1: FileIOError) => {
+          assert(err1 == null, err1)
 
-        fs.writeFile("/a/test/dir/file.txt", "Hello World", (err2: FileIOError) => {
-          assert(err2 == null)
+          fs.writeFile("/a/test/dir/file.txt", "Hello World", (err2: FileIOError) => {
+            assert(err2 == null, err2)
 
-          fs.readFile("/a/test/dir/file.txt", (err3: FileIOError, data: Buffer) => {
-            assert(err3 == null)
-            output1 = data // ~> Buffer("Hello World")
+            fs.readFile("/a/test/dir/file.txt", (err3: FileIOError, data: Buffer) => {
+              assert(err3 == null, err3)
+              output1 = data // ~> Buffer("Hello World")
 
-            fs.unlink("/a/test/dir/file.txt", (err4: FileIOError) => {
-              assert(err4 == null)
+              fs.unlink("/a/test/dir/file.txt", (err4: FileIOError) => {
+                assert(err4 == null, err4)
 
-              fs.readdir("/a/test", (err5: FileIOError, dir: js.Array[String]) => {
-                assert(err5 == null)
-                output2 = dir // ~> ["dir"]
+                fs.readdir("/a/test", (err5: FileIOError, dir: js.Array[String]) => {
+                  assert(err5 == null, err5)
+                  output2 = dir // ~> ["dir"]
 
-                fs.stat("/a/test/dir", (err6: FileIOError, stats: Stats) => {
-                  assert(err6 == null)
-                  output3 = stats.isDirectory() // ~> true
+                  fs.stat("/a/test/dir", (err6: FileIOError, stats: Stats) => {
+                    assert(err6 == null, err6)
+                    output3 = stats.isDirectory() // ~> true
 
-                  fs.rmdir("/a/test/dir", (err7: FileIOError) => {
-                    assert(err7 == null)
+                    fs.rmdir("/a/test/dir", (err7: FileIOError) => {
+                      assert(err7 == null, err7)
 
-                    fs.mkdirp("C:\\use\\windows\\style\\paths", (err8: FileIOError) => {
-                      assert(err8 == null)
+                      fs.mkdirp("C:\\use\\windows\\style\\paths", (err8: FileIOError) => {
+                        assert(err8 == null, err8)
+                      })
                     })
                   })
                 })
@@ -57,11 +60,10 @@ class MemoryFsTest extends FunSpec {
             })
           })
         })
-      })
 
-      console.log("output1 =", output1.toString(), output1)
-      console.log("output2 =", output2)
-      console.log("output3 =", output3)
+      show("output1 =", output1.toString(), output1)
+      show("output2 =", output2)
+      show("output3 =", output3)*/
     }
 
     it("can be used asynchronously - promises") {
@@ -75,9 +77,9 @@ class MemoryFsTest extends FunSpec {
         _ <- fs.rmdirFuture("/a/test/dir")
         _ <- fs.mkdirpFuture("C:\\use\\windows\\style\\paths")
       } {
-        console.log("output1 =", output1.toString(), output1)
-        console.log("output2 =", output2)
-        console.log("output3 =", output3)
+        show("output1 =", output1.toString(), output1)
+        show("output2 =", output2)
+        show("output3 =", output3)
       }
     }
 
@@ -92,11 +94,15 @@ class MemoryFsTest extends FunSpec {
       fs.rmdirSync("/a/test/dir")
       fs.mkdirpSync("C:\\use\\windows\\style\\paths")
 
-      console.log("output1 =", output1.toString(), output1)
-      console.log("output2 =", output2)
-      console.log("output3 =", output3)
+      show("output1 =", output1.toString(), output1)
+      show("output2 =", output2)
+      show("output3 =", output3)
     }
 
+  }
+  
+  def show(label: String, value: js.Any*): Unit = {
+    info(s"$label ${value.mkString(" ")}")
   }
 
 }

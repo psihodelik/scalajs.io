@@ -3,7 +3,7 @@ package io.scalajs.npm.kafkarest
 import java.util.UUID
 
 import io.scalajs.nodejs.{console, process}
-import io.scalajs.npm.kafkarest.KafkaRestTests.UserInfo
+import io.scalajs.npm.kafkarest.KafkaRestTest.UserInfo
 import io.scalajs.util.OptionHelper._
 import io.scalajs.util.ScalaJsHelper._
 import org.scalatest.FunSpec
@@ -18,10 +18,11 @@ import scala.scalajs.js.annotation.ScalaJSDefined
   * KafkaRest Tests
   * @author lawrence.daniels@gmail.com
   */
-class KafkaRestTests extends FunSpec {
+class KafkaRestTest extends FunSpec {
 
   describe("KafkaRest") {
-
+    // TODO use mock or embedded server
+    /*
     val kafka = new KafkaRest(new KafkaRestOptions(url = "http://localhost:8082"))
 
     it("should be able to list topics") {
@@ -49,27 +50,32 @@ class KafkaRestTests extends FunSpec {
       entertainers foreach { entertainer =>
         topic.produce(userInfoSchema, new KeyedMessage(key = UUID.randomUUID().toString, value = entertainer))
       }
-    }
+    }*/
 
   }
 
   private def defineAvroSchemas = {
     val userIdSchema = new AvroSchema("int")
-    val userInfoSchema = new AvroSchema(new Schema(
-      name = "UserInfo",
-      `type` = "record",
-      fields = js.Array(
-        new Schema.Field(name = "id", `type` = "int"),
-        new Schema.Field(name = "name", `type` = "string")
-      )))
+    val userInfoSchema = new AvroSchema(
+      new Schema(name = "UserInfo",
+                 `type` = "record",
+                 fields = js.Array(
+                   new Schema.Field(name = "id", `type` = "int"),
+                   new Schema.Field(name = "name", `type` = "string")
+                 )))
     (userIdSchema, userInfoSchema)
   }
 
   private def generateData = {
     Seq(
-      "Halle Barry", "Idris Elba", "Michael Fastbender", "Kevin Hart", "John Travolta"
-    ).zipWithIndex map { case (name, id) =>
-      new UserInfo(id + 1, name)
+      "Halle Barry",
+      "Idris Elba",
+      "Michael Fastbender",
+      "Kevin Hart",
+      "John Travolta"
+    ).zipWithIndex map {
+      case (name, id) =>
+        new UserInfo(id + 1, name)
     } toJSArray
   }
 
@@ -79,7 +85,7 @@ class KafkaRestTests extends FunSpec {
   * KafkaRest Tests Companion
   * @author lawrence.daniels@gmail.com
   */
-object KafkaRestTests {
+object KafkaRestTest {
 
   @ScalaJSDefined
   class UserInfo(val id: Int, val name: String) extends js.Object
